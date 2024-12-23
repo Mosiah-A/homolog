@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculadora de Sistema Fotovoltaico</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculadora de Sistema Fotovoltaico</h1>
+
+    <label for="consumo">Consumo Mensal de Energia (kWh):</label>
+    <input type="number" id="consumo" placeholder="Insira o consumo mensal">
+
+    <label for="localizacao">Localização:</label>
+    <select id="localizacao">
+        <option value="equatorial">Região Equatorial (alta radiação)</option>
+        <option value="tropical">Região Tropical (radiação moderada)</option>
+        <option value="temperada">Região Temperada (baixa radiação)</option>
+    </select>
+
+    <label for="tipo-telhado">Tipo de Telhado:</label>
+    <select id="tipo-telhado">
+        <option value="plano">Telhado Plano</option>
+        <option value="inclinado">Telhado Inclinado</option>
+        <option value="misturado">Telhado Misturado</option>
+    </select>
+
+    <button onclick="calcular()">Calcular</button>
+
+    <div id="result"></div>
+
+    <script>
+        function calcular() {
+            // Obter os valores dos inputs
+            const consumo = parseFloat(document.getElementById("consumo").value);
+            const localizacao = document.getElementById("localizacao").value;
+            const tipoTelhado = document.getElementById("tipo-telhado").value;
+
+            if (isNaN(consumo) || consumo <= 0) {
+                document.getElementById("result").innerHTML = "Por favor, insira um consumo mensal válido de energia.";
+                return;
+            }
+
+            // Coeficientes de radiação solar média (kWh/m²/dia)
+            const rad = {
+                equatorial: 5.5,
+                tropical: 4.5,
+                temperada: 3.0
+            };
+
+            // Coeficientes de perda do telhado
+            const perda = {
+                plano: 0.15,
+                inclinado: 0.10,
+                misturado: 0.12
+            };
+
+            // Definir radiação solar e perda com base na localização e tipo de telhado
+            const radSolar = rad[localizacao];
+            const perdaTelhado = perda[tipoTelhado];
+
+            // Área total necessária para os painéis
+            const areaPainel = consumo / (radSolar * (1 - perdaTelhado));
+
+            // Considerar que um módulo solar padrão tem 1.65 m² de área
+            const numMódulos = Math.ceil(areaPainel / 1.65);
+
+            // Calcular custo estimado (considerando custo médio de R$ 2.500 por módulo)
+            const custoPorMódulo = 2500;
+            const custoTotal = numMódulos * custoPorMódulo;
+
+            document.getElementById("result").innerHTML = 
+                `<h2>Resultado:</h2>
+                <p>Área de instalação necessária: ${areaPainel.toFixed(2)} m²</p>
+                <p>Número de módulos solares: ${numMódulos}</p>
+                <p>Custo estimado: R$ ${custoTotal.toFixed(2)}</p>`;
+        }
+    </script>
+</body>
+</html>
