@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de ROI de Energia Solar</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora de ROI de Energia Solar</h1>
+        <form id="roiForm">
+            <label for="custoInstalacao">Custo da Instalação (R$):</label>
+            <input type="number" id="custoInstalacao" required>
+            
+            <label for="consumoMensal">Consumo Mensal de Energia (kWh):</label>
+            <input type="number" id="consumoMensal" required>
+
+            <label for="custoEnergia">Custo da Energia (R$/kWh):</label>
+            <input type="number" id="custoEnergia" required>
+            
+            <label for="incentivos">Incentivos Fiscais (R$):</label>
+            <input type="number" id="incentivos" value="0">
+
+            <button type="submit">Calcular ROI</button>
+        </form>
+
+        <div id="resultado">
+            <h2>Resultados:</h2>
+            <p id="tempoRetorno"></p>
+            <p id="economiaAnual"></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
